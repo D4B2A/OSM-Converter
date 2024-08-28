@@ -62,6 +62,7 @@ public class CommandArgsReader {
 		add(new CommandOption("overview-mapnumber", "63240000"));
 		add(new CommandOption("poi-address", ""));
 		add(new CommandOption("merge-lines", ""));
+		add(new CommandOption("target", ""));
 	}
 
 	public CommandArgsReader(ArgumentProcessor proc) {
@@ -102,6 +103,10 @@ public class CommandArgsReader {
 				// Map name (should be an 8 digit number).
 				addOption("mapname", args[i++]);
 
+			} else if (arg.equals("-t")) {
+				// Target
+				addOption("target", args[i++]);
+				
 			} else if (arg.equals("-v")) {
 				// make commands more verbose
 				addOption("verbose");

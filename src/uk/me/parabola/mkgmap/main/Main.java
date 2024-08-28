@@ -112,8 +112,10 @@ public class Main implements ArgumentProcessor {
 	
 	public static void main(String... args) {
 		int rc = Main.mainStart(args);
-		if (rc != 0)
+		if (rc != 0) {
+			//if successful --> exit 1
 			System.exit(1);
+		}
 	}
 	
 	/**
@@ -124,10 +126,11 @@ public class Main implements ArgumentProcessor {
 	 * @param args The command line arguments.
 	 */
 	private static int mainStart(String... args) {
-		Instant start = Instant.now();
+		Instant start = Instant.now(); //current time
 		System.out.println("Time started: " + new Date());
 		// We need at least one argument.
 		if (args.length < 1) {
+			//print help
 			printUsage();
 			printHelp(System.err, getLang(), "options");
 			return 0;
@@ -168,6 +171,7 @@ public class Main implements ArgumentProcessor {
 		System.out.println("Time finished: " + new Date());
 		Duration duration = Duration.between(start, Instant.now());
 		long seconds = duration.getSeconds();
+		//if duration is less than 1 seconds return in milliseconds
 		if (seconds > 0) {
 			long hours = seconds / 3600;
 			seconds -= hours * 3600;
@@ -178,8 +182,10 @@ public class Main implements ArgumentProcessor {
 								(minutes > 0 ? minutes + (minutes > 1 ? " minutes " : " minute ") : "") +
 								(seconds > 0 ? seconds + (seconds > 1 ? " seconds" : " second") : ""));
 		}
-		else
+		else {
 			System.out.println("Total time taken: " + duration.getNano() / 1000000 + " ms");
+		}
+		//something went wrong --> exit 1
 		if (numExitExceptions > 0 || mm.getProgramRC() != 0){
 			return 1;
 		}
@@ -243,7 +249,7 @@ public class Main implements ArgumentProcessor {
 				}
 			}
 		} catch (IOException e) {
-			err.println("Could not read valid optoins");
+			err.println("Could not read valid options");
 			return null;
 		}
 
@@ -278,6 +284,7 @@ public class Main implements ArgumentProcessor {
 		if (OverviewBuilder.isOverviewImg(filename))
 			return;
 		
+		//refers to mapMaker function
 		final MapProcessor mp = mapMaker(ext);
 
 		args.setSort(getSort(args));
